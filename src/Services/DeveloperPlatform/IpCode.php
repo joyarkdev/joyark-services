@@ -9,8 +9,7 @@ class IpCode
 {
     private $host;
 
-    const IP_CODE = "/en/merchant/resource/ipCode";
-
+    const IP_CODE = '/en/merchant/resource/ipCode';
 
     public function __construct()
     {
@@ -19,23 +18,23 @@ class IpCode
 
     /**
      * Get Country Code By Single Ip.
-     * @param string $ip
+     *
      * @return string|null
      */
     public function getCountryCodeByIp(string $ip)
     {
         try {
-            $url = $this->host . self::IP_CODE;
+            $url = $this->host.self::IP_CODE;
             $request = [
-                'ip' => $ip
+                'ip' => $ip,
             ];
             $response = Http::post($url, $request);
             if ($response->successful()) {
                 return $response->json()[$ip]['code'] ?? null;
             }
-            Log::error("查询IP对应的区域代码失败", ['url' => $url, 'request' => $request, 'response' => $response->json(), 'status' => $response->status()]);
+            Log::error('查询IP对应的区域代码失败', ['url' => $url, 'request' => $request, 'response' => $response->json(), 'status' => $response->status()]);
         } catch (\Exception $e) {
-            Log::error("查询IP对应的区域代码失败", ['message' => $e->getMessage()]);
+            Log::error('查询IP对应的区域代码失败', ['message' => $e->getMessage()]);
         }
 
         return null;
