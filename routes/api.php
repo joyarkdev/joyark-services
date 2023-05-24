@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-$prefix = config('joyark-services.api_url', '/api');
-$middleware = config('joyark-services.api_middleware', []);
+$prefix = config('joyark-services.api_url', 'api');
+$middleware = config('joyark-services.api_middleware', ['api']);
 
 Route::middleware($middleware)
     ->prefix($prefix)
