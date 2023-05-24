@@ -20,6 +20,7 @@ class JoyarkServicesServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigrations('create_app_review_table', 'create_app_review_records_table')
+            ->hasRoutes('api')
             ->hasCommand(JoyarkServicesCommand::class);
     }
 }
