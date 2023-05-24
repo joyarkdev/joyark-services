@@ -3,8 +3,8 @@
 namespace Joyarkdev\JoyarkServices\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Joyarkdev\JoyarkServices\JoyarkServicesServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

@@ -2,9 +2,9 @@
 
 namespace Joyarkdev\JoyarkServices;
 
+use Joyarkdev\JoyarkServices\Commands\JoyarkServicesCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Joyarkdev\JoyarkServices\Commands\JoyarkServicesCommand;
 
 class JoyarkServicesServiceProvider extends PackageServiceProvider
 {
