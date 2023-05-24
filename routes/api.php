@@ -7,5 +7,5 @@ $middleware = config('joyark-services.api_middleware', []);
 
 Route::middleware($middleware)
     ->group(function () use ($prefix) {
-        Route::get($prefix.'/app-review', []);
+        Route::get($prefix.'/app-review', [\Joyarkdev\JoyarkServices\Http\Controllers\AppReviewController::class, 'index']);
     });
