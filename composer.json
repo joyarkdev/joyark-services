@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "joyarkdev/joyark-services",
+    "description": "This is my package joyark-services",
     "keywords": [
-        ":vendor_name",
+        "joyarkdev",
         "laravel",
-        ":package_slug"
+        "joyark-services"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/joyarkdev/joyark-services",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Victor Tang",
+            "email": "tanghengzhi@live.com",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Joyarkdev\\JoyarkServices\\": "src/",
+            "Joyarkdev\\JoyarkServices\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Joyarkdev\\JoyarkServices\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -61,10 +61,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Joyarkdev\\JoyarkServices\\JoyarkServicesServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "JoyarkServices": "Joyarkdev\\JoyarkServices\\Facades\\JoyarkServices"
             }
         }
     },

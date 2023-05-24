@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Joyarkdev\JoyarkServices\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class JoyarkServicesCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'joyark-services';
 
     public $description = 'My command';
 
