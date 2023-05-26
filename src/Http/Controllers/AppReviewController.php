@@ -4,8 +4,9 @@ namespace Joyarkdev\JoyarkServices\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Joyarkdev\JoyarkServices\Enums\RiskLevel;
-use Joyarkdev\JoyarkServices\Services\DeveloperPlatform\IpCode;
+use Joyarkdev\JoyarkServices\Enums\AppReviewStatus;
+use Joyarkdev\JoyarkServices\Models\AppReview;
+use Joyarkdev\JoyarkServices\Services\AppReviewRiskDetector;
 
 /**
  * @group App Review
@@ -24,19 +25,23 @@ class AppReviewController extends Controller
      */
     public function index(Request $request)
     {
+        $appId = $request->header('package-name') ?? $request->header('app-key');
         return [
-            'risk_level' => $this->getRiskLevel($request),
+            'status' => $this->getStatus($appId),
+            'risk_level' => (new AppReviewRiskDetector())
+                ->checkIp($request->ip())
+                ->checkDeviceId($request->header('device-id'))
+                ->checkApp($appId)
+                ->checkWhiteListCountries()
+                ->checkVersion($request->header('version'))
+                ->checkBlackListCountries()
+                ->done(),
+
         ];
     }
 
-    protected function getRiskLevel(Request $request): RiskLevel
+    protected function getStatus($appId): AppReviewStatus
     {
-        $countryCode = (new IpCode())->getCountryCodeByIp($request->ip());
-
-        if (in_array($countryCode, ['US', 'CA', 'MX', 'CN'])) {
-            return RiskLevel::REVIEW;
-        }
-
-        return RiskLevel::PASS;
+        return AppReview::whereAppId($appId)->first()->status ?? AppReviewStatus::DEFAULT;
     }
 }

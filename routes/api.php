@@ -9,4 +9,5 @@ Route::middleware($middleware)
     ->prefix($prefix)
     ->group(function () {
         Route::get('/app-review', [\Joyarkdev\JoyarkServices\Http\Controllers\AppReviewController::class, 'index']);
+        Route::post('/app-review-visit-records', [\Joyarkdev\JoyarkServices\Http\Controllers\AppReviewVisitRecordController::class, 'create']);
     });
