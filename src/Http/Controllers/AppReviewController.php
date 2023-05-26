@@ -26,6 +26,7 @@ class AppReviewController extends Controller
     public function index(Request $request)
     {
         $appId = $request->header('package-name') ?? $request->header('app-key');
+
         return [
             'status' => $this->getStatus($appId),
             'risk_level' => (new AppReviewRiskDetector())

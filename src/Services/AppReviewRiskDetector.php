@@ -24,8 +24,8 @@ class AppReviewRiskDetector
         $this->ip = $ip;
 
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
-                            ->whereValue($ip)
-                            ->first()
+            ->whereValue($ip)
+            ->first()
                             ->status ?? AppReviewVisitRecordStatus::DEFAULT;
 
         return match ($status) {
@@ -55,7 +55,7 @@ class AppReviewRiskDetector
     {
         $this->app = AppReview::whereAppId($appId)->first();
 
-        if (!$this->app) {
+        if (! $this->app) {
             return RiskLevel::PASS;
         }
 

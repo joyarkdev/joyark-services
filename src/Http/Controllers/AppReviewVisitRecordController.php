@@ -29,7 +29,7 @@ class AppReviewVisitRecordController extends Controller
         $version = $request->header('version');
         AppReviewVisitRecord::upsert([
             ['type' => AppReviewVisitRecordType::IP, 'value' => $request->ip(), 'app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
-            ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id'), 'app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1]
+            ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id'), 'app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
         ], ['type', 'value'], ['app_id', 'version', 'visit_time']);
 
         return response()->noContent();
