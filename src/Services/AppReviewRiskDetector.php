@@ -15,54 +15,83 @@ class AppReviewRiskDetector
 
     private $deviceId;
 
+    private $appId;
+
+    private $version;
+
     private ?AppReview $app;
 
     private $countryCode;
 
-    public function checkIp($ip): AppReviewRiskDetector|RiskLevel|static
+    public function setIp($ip): static
     {
         $this->ip = $ip;
+        return $this;
+    }
 
+    public function setDeviceId($deviceId): static
+    {
+        $this->deviceId = $deviceId;
+        return $this;
+    }
+
+    public function setAppId($appId): static
+    {
+        $this->appId = $appId;
+        return $this;
+    }
+
+    public function setVersion($version): static
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+    public function check(): RiskLevel
+    {
+        return $this->checkIp();
+    }
+
+    private function checkIp(): RiskLevel
+    {
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
-            ->whereValue($ip)
-            ->first()
+                            ->whereValue($this->ip)
+                            ->first()
                             ->status ?? AppReviewVisitRecordStatus::DEFAULT;
 
         return match ($status) {
             AppReviewVisitRecordStatus::WHITELIST => RiskLevel::PASS,
             AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REVIEW,
-            default => $this,
+            default => $this->checkDeviceId(),
         };
     }
 
-    public function checkDeviceId($deviceId): AppReviewRiskDetector|RiskLevel|static
+    private function checkDeviceId(): RiskLevel
     {
-        $this->deviceId = $deviceId;
-
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::DEVICE_ID)
-            ->whereValue($deviceId)
+            ->whereValue($this->deviceId)
             ->first()
             ->status ?? AppReviewVisitRecordStatus::DEFAULT;
 
         return match ($status) {
             AppReviewVisitRecordStatus::WHITELIST => RiskLevel::PASS,
             AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REVIEW,
-            default => $this,
+            default => $this->checkApp(),
         };
     }
 
-    public function checkApp($appId): RiskLevel|static
+    private function checkApp(): RiskLevel
     {
-        $this->app = AppReview::whereAppId($appId)->first();
+        $this->app = AppReview::whereAppId($this->appId)->first();
 
-        if (! $this->app) {
+        if (!$this->app) {
             return RiskLevel::PASS;
         }
 
-        return $this;
+        return $this->checkWhiteListCountries();
     }
 
-    public function checkWhiteListCountries(): RiskLevel|static
+    private function checkWhiteListCountries(): RiskLevel
     {
         $this->countryCode = (new IpCode())->getCountryCodeByIp($this->ip);
 
@@ -70,29 +99,24 @@ class AppReviewRiskDetector
             return RiskLevel::PASS;
         }
 
-        return $this;
+        return $this->checkVersion();
     }
 
-    public function checkVersion($version): AppReviewRiskDetector|RiskLevel|static
+    private function checkVersion(): RiskLevel
     {
-        return match ($version <=> $this->app->version) {
+        return match ($this->version <=> $this->app->version) {
             1 => RiskLevel::REVIEW,
             -1 => RiskLevel::PASS,
-            0 => $this,
+            0 => $this->checkBlackListCountries(),
         };
     }
 
-    public function checkBlackListCountries(): RiskLevel|static
+    private function checkBlackListCountries(): RiskLevel
     {
         if (in_array($this->countryCode, explode(',', $this->app->black_list_countries))) {
             return RiskLevel::REVIEW;
         }
 
-        return $this;
-    }
-
-    public function done(): RiskLevel
-    {
         return RiskLevel::PASS;
     }
 }
