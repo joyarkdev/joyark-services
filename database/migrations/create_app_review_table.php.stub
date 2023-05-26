@@ -6,12 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up()
     {
         Schema::create('app_review', function (Blueprint $table) {
             $table->id();
             $table->integer('rank')->default(0);
-            $table->string('app_id');
+            $table->string('app_id')->unique();
             $table->string('app_name');
             $table->string('version');
             $table->integer('status')->default(0);
@@ -21,9 +24,17 @@ return new class extends Migration
             $table->string('download_link')->nullable();
             $table->string('black_list_countries')->nullable();
             $table->string('white_list_countries')->nullable();
-            $table->bigInteger('created_by')->nullable();
-            $table->bigInteger('updated_by')->nullable();
+            $table->json('operator')->nullable();
+            $table->timestamp('operation_time')->nullable();
             $table->timestamps();
         });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('app_review');
     }
 };

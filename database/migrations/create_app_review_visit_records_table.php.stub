@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
+    {
+        Schema::create('app_review_visit_records', function (Blueprint $table) {
+            $table->id();
+            $table->enum('type', ['ip', 'device_id']);
+            $table->string('value');
+            $table->string('app_id')->nullable();
+            $table->string('version')->nullable();
+            $table->timestamp('visit_time')->nullable();
+            $table->integer('visit_count')->default(0);
+            $table->integer('status')->default(0);
+            $table->json('operator')->nullable();
+            $table->timestamp('operation_time')->nullable();
+            $table->timestamps();
+
+            $table->unique(['type', 'value']);
+            $table->index('status');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('app_review_visit_records');
+    }
+};
