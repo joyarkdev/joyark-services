@@ -15,6 +15,7 @@ class AppReviewController extends Controller
      * Get Apps
      *
      * @authenticated
+     *
      * @response 200
      */
     public function index(Request $request)
@@ -28,6 +29,7 @@ class AppReviewController extends Controller
      * Create App
      *
      * @authenticated
+     *
      * @bodyParam goods_type integer required Goods Type. Example: 2
      * @bodyParam app_id string required App Key / Package Name. Example: b131213a82f1dd05a5a9f2bd8c5aeb42
      * @bodyParam app_name string required App Name.
@@ -40,6 +42,7 @@ class AppReviewController extends Controller
      * @bodyParam download_link string Download Link.
      * @bodyParam remark string Remark.
      * @bodyParam rank integer Rank. Example: 1
+     *
      * @response 201
      */
     public function create(Request $request)
@@ -54,7 +57,9 @@ class AppReviewController extends Controller
      * Update App
      *
      * @authenticated
+     *
      * @urlParam id integer required Goods ID. Example: 1
+     *
      * @bodyParam goods_type integer required Goods Type. Example: 2
      * @bodyParam app_id string required App Key / Package Name. Example: b131213a82f1dd05a5a9f2bd8c5aeb42
      * @bodyParam app_name string required App Name.
@@ -67,6 +72,7 @@ class AppReviewController extends Controller
      * @bodyParam download_link string Download Link.
      * @bodyParam remark string Remark.
      * @bodyParam rank integer Rank. Example: 1
+     *
      * @response 200
      */
     public function update($id, Request $request)

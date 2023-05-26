@@ -16,7 +16,9 @@ class AppReviewVisitRecordController extends Controller
      * Get Visit Records / WhiteList / BlackList
      *
      * @authenticated
+     *
      * @queryParam status integer required 0 for visit records 1 for whitelist 2 for blacklist. Example: 0
+     *
      * @response 200
      */
     public function index(Request $request)
@@ -33,9 +35,11 @@ class AppReviewVisitRecordController extends Controller
      * Create WhitList / BlackList
      *
      * @authenticated
+     *
      * @bodyParam type string required. Example: ip
      * @bodyParam value string required. Example: 127.0.0.1
      * @bodyParam status integer required 0 for visit records 1 for whitelist 2 for blacklist. Example: 0
+     *
      * @response 201
      */
     public function create(Request $request)
@@ -50,8 +54,11 @@ class AppReviewVisitRecordController extends Controller
      * Update WhitList / BlackList
      *
      * @authenticated
+     *
      * @urlParam id integer required. Example: 1
+     *
      * @bodyParam status integer required 0 for visit records 1 for whitelist 2 for blacklist. Example: 0
+     *
      * @response 200
      */
     public function update($id, Request $request)

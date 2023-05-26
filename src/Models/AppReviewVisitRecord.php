@@ -21,6 +21,7 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordType;
  * @property string|null $operation_time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|AppReviewVisitRecord newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AppReviewVisitRecord newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AppReviewVisitRecord query()
@@ -36,6 +37,7 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordType;
  * @method static \Illuminate\Database\Eloquent\Builder|AppReviewVisitRecord whereVersion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppReviewVisitRecord whereVisitCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppReviewVisitRecord whereVisitTime($value)
+ *
  * @mixin \Eloquent
  */
 class AppReviewVisitRecord extends Model

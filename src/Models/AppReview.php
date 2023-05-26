@@ -24,6 +24,7 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewStatus;
  * @property string|null $operation_time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|AppReview newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AppReview newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AppReview query()
@@ -43,6 +44,7 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewStatus;
  * @method static \Illuminate\Database\Eloquent\Builder|AppReview whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppReview whereVersion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppReview whereWhiteListCountries($value)
+ *
  * @mixin \Eloquent
  */
 class AppReview extends Model
