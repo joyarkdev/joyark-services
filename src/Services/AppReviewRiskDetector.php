@@ -26,24 +26,28 @@ class AppReviewRiskDetector
     public function setIp($ip): static
     {
         $this->ip = $ip;
+
         return $this;
     }
 
     public function setDeviceId($deviceId): static
     {
         $this->deviceId = $deviceId;
+
         return $this;
     }
 
     public function setAppId($appId): static
     {
         $this->appId = $appId;
+
         return $this;
     }
 
     public function setVersion($version): static
     {
         $this->version = $version;
+
         return $this;
     }
 
@@ -55,8 +59,8 @@ class AppReviewRiskDetector
     private function checkIp(): RiskLevel
     {
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
-                            ->whereValue($this->ip)
-                            ->first()
+            ->whereValue($this->ip)
+            ->first()
                             ->status ?? AppReviewVisitRecordStatus::DEFAULT;
 
         return match ($status) {
@@ -84,7 +88,7 @@ class AppReviewRiskDetector
     {
         $this->app = AppReview::whereAppId($this->appId)->first();
 
-        if (!$this->app) {
+        if (! $this->app) {
             return RiskLevel::PASS;
         }
 

@@ -30,6 +30,7 @@ class AppReviewController extends Controller
         $deviceId = $request->header('device-id');
         $appId = $request->header('package-name') ?? $request->header('app-key');
         $version = $request->header('version');
+
         return [
             'status' => $this->getStatus($appId),
             'risk_level' => (new AppReviewRiskDetector())
