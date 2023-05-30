@@ -65,7 +65,7 @@ class AppReviewRiskDetector
 
         return match ($status) {
             AppReviewVisitRecordStatus::WHITELIST => RiskLevel::PASS,
-            AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REVIEW,
+            AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REJECT,
             default => $this->checkDeviceId(),
         };
     }
@@ -79,7 +79,7 @@ class AppReviewRiskDetector
 
         return match ($status) {
             AppReviewVisitRecordStatus::WHITELIST => RiskLevel::PASS,
-            AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REVIEW,
+            AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REJECT,
             default => $this->checkApp(),
         };
     }
@@ -118,7 +118,7 @@ class AppReviewRiskDetector
     private function checkBlackListCountries(): RiskLevel
     {
         if (in_array($this->countryCode, explode(',', $this->app->black_list_countries))) {
-            return RiskLevel::REVIEW;
+            return RiskLevel::REJECT;
         }
 
         return RiskLevel::PASS;

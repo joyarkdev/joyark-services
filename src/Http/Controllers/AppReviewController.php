@@ -4,8 +4,6 @@ namespace Joyarkdev\JoyarkServices\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Joyarkdev\JoyarkServices\Enums\AppReviewStatus;
-use Joyarkdev\JoyarkServices\Models\AppReview;
 use Joyarkdev\JoyarkServices\Services\AppReviewRiskDetector;
 
 /**
@@ -32,7 +30,6 @@ class AppReviewController extends Controller
         $version = $request->header('version');
 
         return [
-            'status' => $this->getStatus($appId),
             'risk_level' => (new AppReviewRiskDetector())
                 ->setIp($ip)
                 ->setDeviceId($deviceId)
@@ -41,10 +38,5 @@ class AppReviewController extends Controller
                 ->check(),
 
         ];
-    }
-
-    protected function getStatus($appId): AppReviewStatus
-    {
-        return AppReview::whereAppId($appId)->first()->status ?? AppReviewStatus::DEFAULT;
     }
 }
