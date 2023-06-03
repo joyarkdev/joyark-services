@@ -7,7 +7,7 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordType;
 use Joyarkdev\JoyarkServices\Enums\RiskLevel;
 use Joyarkdev\JoyarkServices\Models\AppReview;
 use Joyarkdev\JoyarkServices\Models\AppReviewVisitRecord;
-use Joyarkdev\JoyarkServices\Services\DeveloperPlatform\IpCode;
+use Stevebauman\Location\Facades\Location;
 
 class AppReviewRiskDetector
 {
@@ -97,7 +97,7 @@ class AppReviewRiskDetector
 
     private function checkWhiteListCountries(): RiskLevel
     {
-        $this->countryCode = (new IpCode())->getCountryCodeByIp($this->ip);
+        $this->countryCode = Location::get();
 
         if (in_array($this->countryCode, explode(',', $this->app->white_list_countries))) {
             return RiskLevel::PASS;
