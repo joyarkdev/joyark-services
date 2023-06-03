@@ -97,7 +97,7 @@ class AppReviewRiskDetector
 
     private function checkWhiteListCountries(): RiskLevel
     {
-        $this->countryCode = Location::get();
+        $this->countryCode = Location::get($this->ip)->countryCode ?? null;
 
         if (in_array($this->countryCode, explode(',', $this->app->white_list_countries))) {
             return RiskLevel::PASS;
