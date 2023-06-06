@@ -17,6 +17,11 @@ class AppReviewVisitRecordController extends Controller
      *
      * @authenticated
      *
+     * @queryParam start_time string Start Time.
+     * @queryParam end_time string End Time.
+     * @queryParam app_id string App Id.
+     * @queryParam version string Version.
+     * @queryParam type string Type.
      * @queryParam status integer required 0 for visit records 1 for whitelist 2 for blacklist. Example: 0
      *
      * @response 200
@@ -26,9 +31,29 @@ class AppReviewVisitRecordController extends Controller
         $status = $request->get('status') ?? AppReviewVisitRecordStatus::DEFAULT;
         $pageSize = $request->get('pageSize') ?? 20;
 
-        return AppReviewVisitRecord::where('status', $status)
-            ->orderByDesc('id')
-            ->paginate($pageSize);
+        $query = AppReviewVisitRecord::where('status', $status);
+
+        if ($startTime = $request->get('start_time')) {
+            $query->where('created_at', '>=', $startTime);
+        }
+
+        if ($endTime = $request->get('end_time')) {
+            $query->where('created_at', '<=', $endTime);
+        }
+
+        if ($appId = $request->get('app_id')) {
+            $query->where('app_id', $appId);
+        }
+
+        if ($version = $request->get('version')) {
+            $query->where('version', $version);
+        }
+
+        if ($type = $request->get('type')) {
+            $query->where('type', $type);
+        }
+
+        return $query->orderByDesc('id')->paginate($pageSize);
     }
 
     /**
@@ -70,5 +95,30 @@ class AppReviewVisitRecordController extends Controller
         ]));
 
         return $records;
+    }
+
+    /**
+     * Batch Update WhitList / BlackList
+     *
+     * @authenticated
+     *
+     * @bodyParam id integer required. Example: 1
+     * @bodyParam status integer required 0 for visit records 1 for whitelist 2 for blacklist. Example: 0
+     *
+     * @response 204
+     */
+    public function batchUpdate(Request $request)
+    {
+        if (is_array($request->post())) {
+            foreach ($request->post() as $item) {
+                $records = AppReviewVisitRecord::find($item['id']);
+                $records->update(array_merge($item, [
+                    'operator' => auth('admin')->user(),
+                    'operation_time' => now(),
+                ]));
+            }
+        }
+
+        return response()->noContent();
     }
 }

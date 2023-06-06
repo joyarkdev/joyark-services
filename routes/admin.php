@@ -14,4 +14,5 @@ Route::middleware($middleware)
         Route::get('/app-review-records', [\Joyarkdev\JoyarkServices\Http\Controllers\Admin\AppReviewVisitRecordController::class, 'index']);
         Route::post('/app-review-records', [\Joyarkdev\JoyarkServices\Http\Controllers\Admin\AppReviewVisitRecordController::class, 'create']);
         Route::put('/app-review-records/{id}', [\Joyarkdev\JoyarkServices\Http\Controllers\Admin\AppReviewVisitRecordController::class, 'update']);
+        Route::put('/app-review-records', [\Joyarkdev\JoyarkServices\Http\Controllers\Admin\AppReviewVisitRecordController::class, 'batchUpdate']);
     });
