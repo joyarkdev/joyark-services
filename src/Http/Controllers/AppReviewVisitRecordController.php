@@ -33,7 +33,7 @@ class AppReviewVisitRecordController extends Controller
             ['type' => AppReviewVisitRecordType::IP, 'value' => $request->ip()]
         );
 
-        if (!$record->wasRecentlyCreated()) {
+        if (! $record->wasRecentlyCreated()) {
             $record->increment('visit_count', 1);
         }
 
@@ -42,7 +42,7 @@ class AppReviewVisitRecordController extends Controller
             ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id')]
         );
 
-        if (!$record->wasRecentlyCreated()) {
+        if (! $record->wasRecentlyCreated()) {
             $record->increment('visit_count', 1);
         }
 
