@@ -27,10 +27,24 @@ class AppReviewVisitRecordController extends Controller
     {
         $appId = $request->header('package-name') ?? $request->header('app-key');
         $version = $request->header('version');
-        AppReviewVisitRecord::upsert([
-            ['type' => AppReviewVisitRecordType::IP, 'value' => $request->ip(), 'app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
-            ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id'), 'app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
-        ], ['type', 'value'], ['app_id', 'version', 'visit_time']);
+
+        $record = AppReviewVisitRecord::updateOrCreate(
+            ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
+            ['type' => AppReviewVisitRecordType::IP, 'value' => $request->ip()]
+        );
+
+        if (!$record->wasRecentlyCreated()) {
+            $record->increment('visit_count', 1);
+        }
+
+        $record = AppReviewVisitRecord::updateOrCreate(
+            ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
+            ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id')]
+        );
+
+        if (!$record->wasRecentlyCreated()) {
+            $record->increment('visit_count', 1);
+        }
 
         return response()->noContent();
     }
