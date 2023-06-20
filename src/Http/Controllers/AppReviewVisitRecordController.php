@@ -33,7 +33,7 @@ class AppReviewVisitRecordController extends Controller
             ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
         );
 
-        if (! $record->wasRecentlyCreated()) {
+        if (! $record->wasRecentlyCreated) {
             $record->increment('visit_count', 1);
         }
 
@@ -42,7 +42,7 @@ class AppReviewVisitRecordController extends Controller
             ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
         );
 
-        if (! $record->wasRecentlyCreated()) {
+        if (! $record->wasRecentlyCreated) {
             $record->increment('visit_count', 1);
         }
 
