@@ -30,7 +30,7 @@ class AppReviewVisitRecordController extends Controller
 
         $record = AppReviewVisitRecord::updateOrCreate(
             ['type' => AppReviewVisitRecordType::IP, 'value' => $request->ip()],
-            ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
+            ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1]
         );
 
         if (! $record->wasRecentlyCreated) {
@@ -39,7 +39,7 @@ class AppReviewVisitRecordController extends Controller
 
         $record = AppReviewVisitRecord::updateOrCreate(
             ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id')],
-            ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
+            ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1]
         );
 
         if (! $record->wasRecentlyCreated) {
