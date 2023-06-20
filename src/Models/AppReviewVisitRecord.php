@@ -47,6 +47,10 @@ class AppReviewVisitRecord extends Model
     protected $fillable = [
         'type',
         'value',
+        'app_id',
+        'version',
+        'visit_time',
+        'visit_count',
         'status',
         'operator',
         'operation_time',
