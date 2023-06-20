@@ -29,8 +29,8 @@ class AppReviewVisitRecordController extends Controller
         $version = $request->header('version');
 
         $record = AppReviewVisitRecord::updateOrCreate(
+            ['type' => AppReviewVisitRecordType::IP, 'value' => $request->ip()],
             ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
-            ['type' => AppReviewVisitRecordType::IP, 'value' => $request->ip()]
         );
 
         if (! $record->wasRecentlyCreated()) {
@@ -38,8 +38,8 @@ class AppReviewVisitRecordController extends Controller
         }
 
         $record = AppReviewVisitRecord::updateOrCreate(
+            ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id')],
             ['app_id' => $appId, 'version' => $version, 'visit_time' => now(), 'visit_count' => 1],
-            ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id')]
         );
 
         if (! $record->wasRecentlyCreated()) {
