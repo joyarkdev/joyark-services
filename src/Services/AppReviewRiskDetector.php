@@ -118,7 +118,7 @@ class AppReviewRiskDetector
     private function checkBlackListCountries(): RiskLevel
     {
         if (in_array($this->countryCode, explode(',', $this->app->black_list_countries))) {
-            return RiskLevel::REJECT;
+            return RiskLevel::REVIEW;
         }
 
         return RiskLevel::PASS;
