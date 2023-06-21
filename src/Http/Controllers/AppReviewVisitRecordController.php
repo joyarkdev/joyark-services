@@ -48,6 +48,8 @@ class AppReviewVisitRecordController extends Controller
             $deviceIdRecord->save();
         }
 
+        \Log::error("App Review Visit Record");
+
         return response()->noContent();
     }
 }
