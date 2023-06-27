@@ -53,10 +53,10 @@ class AppReviewRiskDetector
 
     public function check(): RiskLevel
     {
-        return $this->checkIp();
+        return $this->checkWhiteListIp();
     }
 
-    private function checkIp(): RiskLevel
+    private function checkWhiteListIp(): RiskLevel
     {
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
             ->whereValue($this->ip)
@@ -65,12 +65,11 @@ class AppReviewRiskDetector
 
         return match ($status) {
             AppReviewVisitRecordStatus::WHITELIST => RiskLevel::PASS,
-            AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REJECT,
-            default => $this->checkDeviceId(),
+            default => $this->checkWhiteListDeviceId(),
         };
     }
 
-    private function checkDeviceId(): RiskLevel
+    private function checkWhiteListDeviceId(): RiskLevel
     {
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::DEVICE_ID)
             ->whereValue($this->deviceId)
@@ -79,6 +78,31 @@ class AppReviewRiskDetector
 
         return match ($status) {
             AppReviewVisitRecordStatus::WHITELIST => RiskLevel::PASS,
+            default => $this->checkBlackListIp(),
+        };
+    }
+
+    private function checkBlackListIp(): RiskLevel
+    {
+        $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
+            ->whereValue($this->ip)
+            ->first()
+            ->status ?? AppReviewVisitRecordStatus::DEFAULT;
+
+        return match ($status) {
+            AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REJECT,
+            default => $this->checkBlackListDeviceId(),
+        };
+    }
+
+    private function checkBlackListDeviceId(): RiskLevel
+    {
+        $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::DEVICE_ID)
+            ->whereValue($this->deviceId)
+            ->first()
+            ->status ?? AppReviewVisitRecordStatus::DEFAULT;
+
+        return match ($status) {
             AppReviewVisitRecordStatus::BLACKLIST => RiskLevel::REJECT,
             default => $this->checkApp(),
         };
