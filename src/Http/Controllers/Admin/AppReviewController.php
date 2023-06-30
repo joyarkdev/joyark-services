@@ -48,7 +48,7 @@ class AppReviewController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'app_id' => 'required|string|unique:Joyarkdev\JoyarkServices\Models\AppReview',
+            'app_id' => 'required|string|unique:app-review',
             'app_name' => 'required|string',
             'version' => 'required|string',
             'status' => 'required|boolean',
