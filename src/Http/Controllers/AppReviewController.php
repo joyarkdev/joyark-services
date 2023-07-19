@@ -37,7 +37,7 @@ class AppReviewController extends Controller
                 ->setAppId($appId)
                 ->setVersion($version)
                 ->check(),
-            'app_review' => AppReview::whereAppId($appId)->first(),
+            'app_review' => AppReview::whereAppId($appId)->first()?->makeHidden(['operator', 'operation_time'])->toArray(),
         ];
     }
 }
