@@ -37,6 +37,8 @@ class AppReviewController extends Controller
      * @bodyParam status string required Status. Example: 0
      * @bodyParam charge_text string Charge Text.
      * @bodyParam charge_url string Charge Url.
+     * @bodyParam subscription_text string Subscription Text.
+     * @bodyParam subscription_url string Subscription Url.
      * @bodyParam black_list_countries string required Countries in black list.
      * @bodyParam white_list_countries integer required Countries in white list.
      * @bodyParam download_link string Download Link.

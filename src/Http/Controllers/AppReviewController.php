@@ -4,6 +4,7 @@ namespace Joyarkdev\JoyarkServices\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Joyarkdev\JoyarkServices\Models\AppReview;
 use Joyarkdev\JoyarkServices\Services\AppReviewRiskDetector;
 
 /**
@@ -36,7 +37,7 @@ class AppReviewController extends Controller
                 ->setAppId($appId)
                 ->setVersion($version)
                 ->check(),
-
+            'app' => AppReview::whereAppId($appId)->first(),
         ];
     }
 }

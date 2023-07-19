@@ -17,6 +17,8 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewStatus;
  * @property string|null $remark
  * @property string|null $charge_text
  * @property string|null $charge_url
+ * @property string|null $subscription_text
+ * @property string|null $subscription_url
  * @property string|null $download_link
  * @property string|null $black_list_countries
  * @property string|null $white_list_countries
@@ -60,6 +62,8 @@ class AppReview extends Model
         'remark',
         'charge_text',
         'charge_url',
+        'subscription_text',
+        'subscription_url',
         'download_link',
         'black_list_countries',
         'white_list_countries',
