@@ -53,6 +53,8 @@ class AppReview extends Model
 {
     protected $table = 'app_review';
 
+    protected $hidden = ['operator', 'operation_time', 'created_at', 'updated_at'];
+
     protected $fillable = [
         'rank',
         'app_id',

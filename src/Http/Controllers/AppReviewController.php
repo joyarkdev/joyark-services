@@ -37,7 +37,7 @@ class AppReviewController extends Controller
                 ->setAppId($appId)
                 ->setVersion($version)
                 ->check(),
-            'app' => AppReview::whereAppId($appId)->first(),
+            'app_review' => AppReview::whereAppId($appId)->first(),
         ];
     }
 }
