@@ -4,7 +4,6 @@ namespace Joyarkdev\JoyarkServices\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordStatus;
 use Joyarkdev\JoyarkServices\Models\AppReviewVisitRecord;
 
 /**
@@ -28,10 +27,13 @@ class AppReviewVisitRecordController extends Controller
      */
     public function index(Request $request)
     {
-        $status = $request->get('status') ?? AppReviewVisitRecordStatus::DEFAULT;
         $pageSize = $request->get('pageSize') ?? 20;
 
-        $query = AppReviewVisitRecord::where('status', $status);
+        $query = AppReviewVisitRecord::query();
+
+        if ($status = $request->get('status')) {
+            $query->where('status', $status);
+        }
 
         if ($startTime = $request->get('start_time')) {
             $query->where('created_at', '>=', $startTime);

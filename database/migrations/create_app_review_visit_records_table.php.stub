@@ -20,11 +20,13 @@ return new class extends Migration
             $table->timestamp('visit_time')->nullable();
             $table->integer('visit_count')->default(0);
             $table->integer('status')->default(0);
+            $table->enum('tag', ['white_black_list'])->nullable;
             $table->json('operator')->nullable();
             $table->timestamp('operation_time')->nullable();
             $table->timestamps();
 
-            $table->unique(['type', 'value']);
+            $table->unique(['type', 'value', 'status']);
+            $table->unique(['type', 'value', 'app_id', 'version']);
             $table->index('status');
         });
     }

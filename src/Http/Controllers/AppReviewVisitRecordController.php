@@ -29,14 +29,14 @@ class AppReviewVisitRecordController extends Controller
         $version = $request->header('version');
 
         $ipRecord = AppReviewVisitRecord::updateOrCreate(
-            ['type' => AppReviewVisitRecordType::IP, 'value' => $request->ip()],
-            ['app_id' => $appId, 'version' => $version, 'visit_time' => now()]
+            ['app_id' => $appId, 'version' => $version, 'type' => AppReviewVisitRecordType::IP, 'value' => $request->ip()],
+            ['visit_time' => now()]
         );
         $ipRecord->increment('visit_count');
 
         $deviceIdRecord = AppReviewVisitRecord::updateOrCreate(
-            ['type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id')],
-            ['app_id' => $appId, 'version' => $version, 'visit_time' => now()]
+            ['app_id' => $appId, 'version' => $version, 'type' => AppReviewVisitRecordType::DEVICE_ID, 'value' => $request->header('device-id')],
+            ['visit_time' => now()]
         );
         $deviceIdRecord->increment('visit_count');
 

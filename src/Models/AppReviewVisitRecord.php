@@ -2,8 +2,10 @@
 
 namespace Joyarkdev\JoyarkServices\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordStatus;
+use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordTag;
 use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordType;
 
 /**
@@ -17,6 +19,7 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordType;
  * @property string|null $visit_time
  * @property int $visit_count
  * @property AppReviewVisitRecordStatus $status
+ * @property AppReviewVisitRecordTag $tag
  * @property array|null $operator
  * @property string|null $operation_time
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -64,6 +67,18 @@ class AppReviewVisitRecord extends Model
     protected $casts = [
         'type' => AppReviewVisitRecordType::class,
         'status' => AppReviewVisitRecordStatus::class,
+        'tag' => AppReviewVisitRecordTag::class,
         'operator' => 'json',
     ];
+
+    protected function tag(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => match ($this->status) {
+                AppReviewVisitRecordStatus::WHITELIST, AppReviewVisitRecordStatus::BLACKLIST => AppReviewVisitRecordTag::WHITE_BLACK_LIST,
+                default => null,
+            },
+        );
+    }
 }
