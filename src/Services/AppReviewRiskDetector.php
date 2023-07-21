@@ -60,8 +60,9 @@ class AppReviewRiskDetector
     {
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
             ->whereValue($this->ip)
+            ->whereStatus(AppReviewVisitRecordStatus::WHITELIST)
             ->first()
-                            ->status ?? AppReviewVisitRecordStatus::DEFAULT;
+            ->status ?? AppReviewVisitRecordStatus::DEFAULT;
 
         return match ($status) {
             AppReviewVisitRecordStatus::WHITELIST => RiskLevel::PASS,
@@ -73,6 +74,7 @@ class AppReviewRiskDetector
     {
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::DEVICE_ID)
             ->whereValue($this->deviceId)
+            ->whereStatus(AppReviewVisitRecordStatus::WHITELIST)
             ->first()
             ->status ?? AppReviewVisitRecordStatus::DEFAULT;
 
@@ -86,6 +88,7 @@ class AppReviewRiskDetector
     {
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
             ->whereValue($this->ip)
+            ->whereStatus(AppReviewVisitRecordStatus::BLACKLIST)
             ->first()
             ->status ?? AppReviewVisitRecordStatus::DEFAULT;
 
@@ -99,6 +102,7 @@ class AppReviewRiskDetector
     {
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::DEVICE_ID)
             ->whereValue($this->deviceId)
+            ->whereStatus(AppReviewVisitRecordStatus::BLACKLIST)
             ->first()
             ->status ?? AppReviewVisitRecordStatus::DEFAULT;
 
