@@ -67,7 +67,6 @@ class AppReviewVisitRecord extends Model
     protected $casts = [
         'type' => AppReviewVisitRecordType::class,
         'status' => AppReviewVisitRecordStatus::class,
-        'tag' => AppReviewVisitRecordTag::class,
         'operator' => 'json',
     ];
 
