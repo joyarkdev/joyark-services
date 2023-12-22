@@ -8,6 +8,6 @@ $middleware = config('joyark-services.api_middleware', ['api']);
 Route::middleware($middleware)
     ->prefix($prefix)
     ->group(function () {
-        Route::get('/app-review', [\Joyarkdev\JoyarkServices\Http\Controllers\AppReviewController::class, 'index']);
+        Route::match(['get', 'post'], '/app-review', [\Joyarkdev\JoyarkServices\Http\Controllers\AppReviewController::class, 'index']);
         Route::post('/app-review-visit-records', [\Joyarkdev\JoyarkServices\Http\Controllers\AppReviewVisitRecordController::class, 'create']);
     });
