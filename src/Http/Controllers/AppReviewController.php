@@ -4,6 +4,7 @@ namespace Joyarkdev\JoyarkServices\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Joyarkdev\JoyarkServices\Models\AppReview;
 use Joyarkdev\JoyarkServices\Services\AppReviewRiskDetector;
 
@@ -30,13 +31,19 @@ class AppReviewController extends Controller
         $appId = $request->header('package-name') ?? $request->header('app-key');
         $version = $request->header('version');
 
+        $riskLevel = (new AppReviewRiskDetector())
+            ->setIp($ip)
+            ->setDeviceId($deviceId)
+            ->setAppId($appId)
+            ->setVersion($version)
+            ->check();
+
+        if ($request->header('X-Debug')) {
+            Log::error("Risk Level: {$riskLevel->value}");
+        }
+
         return [
-            'risk_level' => (new AppReviewRiskDetector())
-                ->setIp($ip)
-                ->setDeviceId($deviceId)
-                ->setAppId($appId)
-                ->setVersion($version)
-                ->check(),
+            'risk_level' => $riskLevel,
             'app_review' => AppReview::whereAppId($appId)->first()?->makeHidden(['operator', 'operation_time'])->toArray(),
         ];
     }

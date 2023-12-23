@@ -2,6 +2,7 @@
 
 namespace Joyarkdev\JoyarkServices\Services;
 
+use Illuminate\Support\Facades\Log;
 use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordStatus;
 use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordType;
 use Joyarkdev\JoyarkServices\Enums\RiskLevel;
@@ -53,11 +54,15 @@ class AppReviewRiskDetector
 
     public function check(): RiskLevel
     {
+        Log::info("Start Check");
+
         return $this->checkWhiteListIp();
     }
 
     private function checkWhiteListIp(): RiskLevel
     {
+        Log::info("Check White List (Ip)");
+
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
             ->whereValue($this->ip)
             ->whereStatus(AppReviewVisitRecordStatus::WHITELIST)
@@ -72,6 +77,8 @@ class AppReviewRiskDetector
 
     private function checkWhiteListDeviceId(): RiskLevel
     {
+        Log::info("Check White List (Device Id)");
+
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::DEVICE_ID)
             ->whereValue($this->deviceId)
             ->whereStatus(AppReviewVisitRecordStatus::WHITELIST)
@@ -86,6 +93,8 @@ class AppReviewRiskDetector
 
     private function checkBlackListIp(): RiskLevel
     {
+        Log::info("Check Black List (Ip)");
+
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::IP)
             ->whereValue($this->ip)
             ->whereStatus(AppReviewVisitRecordStatus::BLACKLIST)
@@ -100,6 +109,8 @@ class AppReviewRiskDetector
 
     private function checkBlackListDeviceId(): RiskLevel
     {
+        Log::info("Check Black List (Device Id)");
+
         $status = AppReviewVisitRecord::whereType(AppReviewVisitRecordType::DEVICE_ID)
             ->whereValue($this->deviceId)
             ->whereStatus(AppReviewVisitRecordStatus::BLACKLIST)
@@ -114,9 +125,12 @@ class AppReviewRiskDetector
 
     private function checkApp(): RiskLevel
     {
+        Log::info("Check App");
+
         $this->app = AppReview::whereAppId($this->appId)->first();
 
         if (! $this->app) {
+            Log::error("App Not Exists");
             return RiskLevel::PASS;
         }
 
@@ -125,6 +139,8 @@ class AppReviewRiskDetector
 
     private function checkWhiteListCountries(): RiskLevel
     {
+        Log::info("Check White List Countries");
+
         $this->countryCode = Location::get($this->ip)->countryCode ?? null;
 
         if (in_array($this->countryCode, explode(',', $this->app->white_list_countries))) {
@@ -136,6 +152,8 @@ class AppReviewRiskDetector
 
     private function checkVersion(): RiskLevel
     {
+        Log::info("Check App Version");
+
         return match ($this->version <=> $this->app->version) {
             1 => RiskLevel::REVIEW,
             -1 => RiskLevel::PASS,
@@ -145,6 +163,8 @@ class AppReviewRiskDetector
 
     private function checkBlackListCountries(): RiskLevel
     {
+        Log::info("Check Black List Countries");
+
         if (in_array($this->countryCode, explode(',', $this->app->black_list_countries))) {
             return RiskLevel::REVIEW;
         }
