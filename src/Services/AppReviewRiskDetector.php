@@ -142,9 +142,11 @@ class AppReviewRiskDetector
     {
         Log::info('Check White List Countries');
 
-        $this->countryCode = Location::get($this->ip)->countryCode ?? null;
+        if ($this->app->white_list_countries || $this->app->black_list_countries) {
+            $this->countryCode = Location::get($this->ip)->countryCode ?? null;
+        }
 
-        if (in_array($this->countryCode, explode(',', $this->app->white_list_countries))) {
+        if ($this->app->white_list_countries && in_array($this->countryCode, explode(',', $this->app->white_list_countries))) {
             return RiskLevel::PASS;
         }
 
@@ -166,7 +168,7 @@ class AppReviewRiskDetector
     {
         Log::info('Check Black List Countries');
 
-        if (in_array($this->countryCode, explode(',', $this->app->black_list_countries))) {
+        if ($this->app->black_list_countries && in_array($this->countryCode, explode(',', $this->app->black_list_countries))) {
             return RiskLevel::REVIEW;
         }
 
