@@ -31,7 +31,7 @@ class AppReviewController extends Controller
         $appId = $request->header('package-name') ?? $request->header('app-key');
         $version = $request->header('version');
 
-        $riskLevel = (new AppReviewRiskDetector())
+        $riskLevel = (new AppReviewRiskDetector)
             ->setIp($ip)
             ->setDeviceId($deviceId)
             ->setAppId($appId)

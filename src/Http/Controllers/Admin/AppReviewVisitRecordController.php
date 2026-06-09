@@ -27,31 +27,31 @@ class AppReviewVisitRecordController extends Controller
      */
     public function index(Request $request)
     {
-        $pageSize = $request->get('pageSize') ?? 20;
+        $pageSize = $request->input('pageSize') ?? 20;
 
         $query = AppReviewVisitRecord::query();
 
-        if ($status = $request->get('status')) {
+        if ($status = $request->input('status')) {
             $query->where('status', $status);
         }
 
-        if ($startTime = $request->get('start_time')) {
+        if ($startTime = $request->input('start_time')) {
             $query->where('created_at', '>=', $startTime);
         }
 
-        if ($endTime = $request->get('end_time')) {
+        if ($endTime = $request->input('end_time')) {
             $query->where('created_at', '<=', $endTime);
         }
 
-        if ($appId = $request->get('app_id')) {
+        if ($appId = $request->input('app_id')) {
             $query->where('app_id', $appId);
         }
 
-        if ($version = $request->get('version')) {
+        if ($version = $request->input('version')) {
             $query->where('version', $version);
         }
 
-        if ($type = $request->get('type')) {
+        if ($type = $request->input('type')) {
             $query->where('type', $type);
         }
 
@@ -111,14 +111,12 @@ class AppReviewVisitRecordController extends Controller
      */
     public function batchUpdate(Request $request)
     {
-        if (is_array($request->post())) {
-            foreach ($request->post() as $item) {
-                $records = AppReviewVisitRecord::find($item['id']);
-                $records->update(array_merge($item, [
-                    'operator' => auth('admin')->user(),
-                    'operation_time' => now(),
-                ]));
-            }
+        foreach ($request->post() as $item) {
+            $records = AppReviewVisitRecord::find($item['id']);
+            $records->update(array_merge($item, [
+                'operator' => auth('admin')->user(),
+                'operation_time' => now(),
+            ]));
         }
 
         return response()->noContent();

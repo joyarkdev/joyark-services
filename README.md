@@ -7,6 +7,13 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
+## Version Compatibility
+
+| Package version | PHP version | Laravel version |
+|-----------------|-------------|-----------------|
+| 1.x             | 8.1 - 8.2   | 9 - 12          |
+| 2.x             | 8.3 - 8.5   | 13              |
+
 ## Support us
 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/joyark-services.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/joyark-services)
