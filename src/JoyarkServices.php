@@ -2,6 +2,4 @@
 
 namespace Joyarkdev\JoyarkServices;
 
-class JoyarkServices
-{
-}
+class JoyarkServices {}

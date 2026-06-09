@@ -3,6 +3,7 @@
 namespace Joyarkdev\JoyarkServices\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Joyarkdev\JoyarkServices\Enums\AppReviewStatus;
 
 /**
@@ -24,8 +25,8 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewStatus;
  * @property string|null $white_list_countries
  * @property array|null $operator
  * @property string|null $operation_time
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static \Illuminate\Database\Eloquent\Builder|AppReview newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AppReview newQuery()
@@ -76,7 +77,7 @@ class AppReview extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'status' => AppReviewStatus::class,

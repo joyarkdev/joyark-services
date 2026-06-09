@@ -4,6 +4,7 @@ namespace Joyarkdev\JoyarkServices\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordStatus;
 use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordTag;
 use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordType;
@@ -22,8 +23,8 @@ use Joyarkdev\JoyarkServices\Enums\AppReviewVisitRecordType;
  * @property AppReviewVisitRecordTag $tag
  * @property array|null $operator
  * @property string|null $operation_time
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static \Illuminate\Database\Eloquent\Builder|AppReviewVisitRecord newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AppReviewVisitRecord newQuery()
@@ -62,7 +63,7 @@ class AppReviewVisitRecord extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'type' => AppReviewVisitRecordType::class,

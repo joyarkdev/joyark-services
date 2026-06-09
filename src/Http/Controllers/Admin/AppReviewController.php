@@ -20,7 +20,7 @@ class AppReviewController extends Controller
      */
     public function index(Request $request)
     {
-        $pageSize = $request->get('pageSize') ?? 20;
+        $pageSize = $request->input('pageSize') ?? 20;
 
         return AppReview::orderBy('rank')->paginate($pageSize);
     }
